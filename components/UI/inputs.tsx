@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React from "react";
 import { FaEnvelope, FaArrowRight, FaRegEye } from "react-icons/fa";
 import classNames from "classnames";
 
@@ -60,7 +60,7 @@ const CcInput = React.forwardRef(
         )}
         <div className="relative w-full">
           <span className="absolute -translate-y-1/2 text-md top-1/2 right-5">
-            {icons && icons.eye}
+            {rest.type === "password" ? icons.eye : icons.email}
           </span>
           <input
             ref={ref}

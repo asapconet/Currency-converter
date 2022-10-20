@@ -31,12 +31,15 @@ const Login = () => {
   return (
     <>
       <div className="flex flex-col gap-y-5 items-start pt-44 h-[100vh] px-12 bg-gray-700 w-[50%]">
-        <h1 className="text-3xl font-bold py-6 capitalize">
+        <h1 className="text-[3.1rem] font-bold py-6 capitalize">
           {" "}
           create new account
         </h1>
-        <span className="text-lg">
-          Already a member? <Link href="/auth/signup">Sign Up!</Link>
+        <span className="text-xl font-normal text-gray-300">
+          Not a member?{""}
+          <span className="text-sm text-blue-400 font-semibold px-2">
+            <Link href="/auth/signup">Sign Up!</Link>
+          </span>
         </span>
         <form onSubmit={formik.handleSubmit}>
           <CcInput
@@ -53,7 +56,7 @@ const Login = () => {
             label="password"
             placeholder="********** "
             {...formik.getFieldProps("email")}
-            className="p-5 rounded-lg w-full"
+            className="p-5 rounded-lg w-[30rem]"
           />
         </form>
       </div>
