@@ -20,7 +20,7 @@ export const userApi = createApi({
       },
       transformResponse: (result: { data: { user: IUser } }) =>
         result.data.user,
-      async onQueryStarted(args, { dispatch, queryFulfilled }) {
+      async onQueryStarted(args, { dispatch, queryFulfilled }): Promise<void> {
         try {
           const { data } = await queryFulfilled;
           dispatch(setUser(data));
