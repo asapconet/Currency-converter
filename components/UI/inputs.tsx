@@ -14,10 +14,7 @@ interface IProps {
   formik?: any;
 }
 const CcInput = React.forwardRef(
-  (
-    { textarea, errors, label, className, id, formik, ...rest }: IProps,
-    ref: React.RefObject<HTMLInputElement | any>
-  ) => {
+  ({ textarea, errors, label, className, id, formik, ...rest }: IProps) => {
     const icons: any = {
       email: <FaEnvelope />,
       rigthIcon: <FaArrowRight />,
@@ -35,8 +32,8 @@ const CcInput = React.forwardRef(
           <div className="relative w-full">
             <span className="absolute -translate-y-1/2">{icons.rightIcon}</span>
             <textarea
-              id={id}
-              ref={ref}
+              id={rest.name}
+              // ref={ref}
               onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               className={classNames({ "pl-12": icons.rightIcon })}
@@ -63,7 +60,7 @@ const CcInput = React.forwardRef(
             {rest.type === "password" ? icons.eye : icons.email}
           </span>
           <input
-            ref={ref}
+            // ref={ref}
             id={rest.name}
             type={rest.type}
             // onBlur={formik.handleBlur}
