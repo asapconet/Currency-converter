@@ -1,10 +1,13 @@
 import classNames from "classnames";
+import { useRef } from "react";
+import CcLink from "./link";
 
 interface IProps {
   isDisabled?: boolean;
   ghost?: boolean;
   children: React.ReactNode;
   className?: string;
+  asLink?: string;
   onClick?: () => {};
 }
 
@@ -15,8 +18,11 @@ export const CcButton = ({
   className,
   ...rest
 }: IProps) => {
+  const linkRef = useRef<HTMLElement>(null);
+
   const handleClick = () => {
     rest?.onClick?.();
+    if (rest.asLink) linkRef.current?.click();
   };
 
   const genStyle =
@@ -34,6 +40,7 @@ export const CcButton = ({
         >
           {children}
         </button>
+        {rest.asLink && <CcLink ref={linkRef} to={rest.asLink} />}
       </>
     );
   }
@@ -48,6 +55,7 @@ export const CcButton = ({
       >
         {children}
       </button>
+      {rest.asLink && <CcLink ref={linkRef} to={rest.asLink} className='!m-0'/>}
     </>
   );
 };

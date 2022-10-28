@@ -60,10 +60,10 @@ const Login = () => {
             className="p-5 rounded-lg w-[30rem]"
           />
           <span className="flex gap-7">
-            <CcButton ghost isDisabled>
-              Sign Up{" "}
+            <CcButton asLink="/auth/signup" ghost>
+              Create account{" "}
             </CcButton>
-            <CcButton>!Sign Up </CcButton>
+            <CcButton>Log me On</CcButton>
           </span>
         </form>
       </div>
