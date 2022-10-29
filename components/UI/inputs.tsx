@@ -48,6 +48,7 @@ const CcInput = React.forwardRef(
         </div>
       );
     }
+
     return (
       <div className=" w-full py-4 text-left">
         {label && (
@@ -66,7 +67,10 @@ const CcInput = React.forwardRef(
             // onBlur={formik.handleBlur}
             // onChange={formik.handleChange}
             className={classNames(
-              { "pr-44 w-full text-xl font-bold": icons[icons.rightIcon] },
+              "focus:ring-blue-500 w-full",
+              {
+                "pr-44 w-full": icons[icons.rightIcon],
+              },
               className
             )}
             {...rest}

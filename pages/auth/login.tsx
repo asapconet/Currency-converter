@@ -34,7 +34,7 @@ const Login = () => {
       <div className="flex flex-col gap-y-5 items-start pt-44 h-[100vh] px-12 bg-gray-700 w-[50%]">
         <h1 className="text-[3.1rem] font-bold py-6 capitalize">
           {" "}
-          Login to your account
+          Login to your account<b className="text-blue-500 text-lx ml-1">.</b>
         </h1>
         <span className="text-xl font-normal text-gray-300">
           Not a member?{""}
@@ -57,8 +57,9 @@ const Login = () => {
             label="password"
             placeholder="********** "
             {...formik.getFieldProps("email")}
-            className="p-5 rounded-lg w-[30rem]"
+            className="p-5 rounded-lg w-full"
           />
+
           <span className="flex gap-7">
             <CcButton asLink="/auth/signup" ghost>
               Create account{" "}
