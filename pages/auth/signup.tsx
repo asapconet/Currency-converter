@@ -13,7 +13,9 @@ const validationSchema = Yup.object().shape({
 });
 
 const Signup = () => {
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    console.log("names in");
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +51,7 @@ const Signup = () => {
               type="text"
               label="First Name"
               placeholder="Asap"
-              // {...formik.getFieldProps("firstName")}
+              {...formik.getFieldProps("firstName")}
               className="p-5 rounded-lg"
             />
             <CcInput
@@ -58,6 +60,7 @@ const Signup = () => {
               label="Last Name"
               placeholder="A1"
               className="p-5 rounded-lg"
+              {...formik.getFieldProps("lastName")}
             />
           </span>
           <CcInput
@@ -66,6 +69,7 @@ const Signup = () => {
             label="Email"
             placeholder="inputyouremail@send.com"
             className="p-5 rounded-lg w-full"
+            {...formik.getFieldProps("email")}
           />
           <CcInput
             id="password"
@@ -73,6 +77,7 @@ const Signup = () => {
             label="Password"
             placeholder="***********"
             className="p-5 rounded-lg w-full"
+            {...formik.getFieldProps("password")}
           />
 
           <span className="flex gap-4 my-6">
@@ -80,7 +85,7 @@ const Signup = () => {
               {" "}
               Login
             </CcButton>
-            <CcButton>Create account</CcButton>
+            <CcButton type="submit">Create account</CcButton>
           </span>
         </form>
       </div>
