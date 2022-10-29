@@ -5,10 +5,10 @@ import CcInput from "../../components/UI/inputs";
 import Link from "next/link";
 import { CcButton } from "../../components/UI/button";
 
-interface IProps {
-  email: string;
-  password: string;
-}
+// interface IProps {
+//   email: string;
+//   password: string;
+// }
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required("neccesary").email(),

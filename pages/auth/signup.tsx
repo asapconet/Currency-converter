@@ -1,8 +1,31 @@
+import * as Yup from "yup";
+import { useFormik } from "formik";
+
 import { CcButton } from "../../components/UI/button";
 import CcInput from "../../components/UI/inputs";
 import CcLink from "../../components/UI/link";
 
+const validationSchema = Yup.object().shape({
+  firstName: Yup.string().required("first name is required"),
+  lastName: Yup.string().required("last name is requireed"),
+  email: Yup.string().email().required("email is required"),
+  password: Yup.string().required(),
+});
+
 const Signup = () => {
+  const handleSubmit = () => {};
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+    },
+    onSubmit: handleSubmit,
+    validationSchema,
+  });
+
   return (
     <div>
       <div className="flex flex-col gap-y-1 items-start justify-center h-[100vh] px-12 bg-gray-700 w-[50%]">
@@ -19,7 +42,7 @@ const Signup = () => {
             <CcLink to="/auth/login">Sign In!</CcLink>
           </span>
         </span>
-        <form onSubmit={() => {}}>
+        <form onSubmit={formik.handleSubmit}>
           <span className="flex gap-4">
             <CcInput
               id="fistName"
