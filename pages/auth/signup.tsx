@@ -131,9 +131,9 @@ const InnerForm = (props: FormikProps<FormValues>) => {
               placeholder="***********"
               className="h-16 px-5 rounded-lg w-full"
             />
-            {errors.lastName && touched.lastName && (
+            {errors.password && touched.password && (
               <p className="text-[14px] text-red-300 italic lowercase">
-                {errors.lastName}
+                {errors.password}
               </p>
             )}
           </div>
