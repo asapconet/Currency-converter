@@ -3,8 +3,8 @@ import { useRef } from "react";
 import CcLink from "./link";
 
 interface IProps {
-  isDisabled?: boolean;
-  type?: any;
+  disabled?: any;
+  type?: string;
   ghost?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -17,7 +17,7 @@ export const CcButton = ({
   ghost,
   children,
   className,
-  isDisabled,
+  disabled,
   ...rest
 }: IProps) => {
   const linkRef = useRef<HTMLElement>(null);
@@ -35,8 +35,8 @@ export const CcButton = ({
       <>
         <button
           {...rest}
-          type={type}
-          disabled={isDisabled}
+          type="submit"
+          disabled={disabled}
           onClick={handleClick}
           role="button"
           className={classNames("bg-gray-400 ", genStyle, className)}
@@ -52,8 +52,9 @@ export const CcButton = ({
     <>
       <button
         {...rest}
-        disabled={isDisabled}
+        disabled={disabled}
         onClick={handleClick}
+        type="submit"
         className={classNames("bg-blue-500 ", genStyle, className)}
       >
         {children}
