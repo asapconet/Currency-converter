@@ -1,20 +1,26 @@
 import * as Yup from "yup";
-import { withFormik, FormikProps } from "formik";
+import { withFormik, FormikProps, FormikBag } from "formik";
+import { connect, ConnectedProps } from "react-redux";
 
 import { CcButton } from "../../components/UI/button";
 // import CcInput from "../../components/UI/inputs";
 import CcLink from "../../components/UI/link";
+import classNames from "classnames";
+import { errorStle, inputStyle, labelStyle } from "./login";
+import { endpoints } from "../api/authApi";
+import { RootState } from "../../context/store";
+import { toast } from "react-toastify";
 
-interface FormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+export interface FormValues {
+  first_name?: string;
+  last_name?: string;
+  email?: string;
+  password?: string;
 }
 
-interface FormProps {
-  firstName: string;
-  lastName: string;
+export interface FormProps {
+  // first_name: string;
+  // last_name: string;
   email: string;
   password: string;
 }
@@ -61,6 +67,7 @@ const InnerForm = (props: FormikProps<FormValues>) => {
     handleSubmit,
     isSubmitting,
   } = props;
+
   return (
     <div className="bg-login-hero bg-cover ">
       <div className="bg-gradient-to-r from-black via-black/90 ">
@@ -81,56 +88,43 @@ const InnerForm = (props: FormikProps<FormValues>) => {
           <form onSubmit={handleSubmit}>
             <div className="flex h-30 items-center gap-4">
               <div className="w-full pt-4 flex flex-col text-left">
-                <label
-                  htmlFor="First Name"
-                  className="px-2 relative top-5 left-2 text-xs text-gray-300 capitalize"
-                >
+                <label htmlFor="First Name" className={classNames(labelStyle)}>
                   First Name
                 </label>
                 <input
-                  id="firstName"
+                  id="first_name"
                   type="text"
                   placeholder="Asap"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.firstName}
-                  className="h-16 px-5 rounded-lg"
+                  value={values.first_name}
+                  className={classNames(inputStyle)}
                 />
-                {errors.firstName && touched.firstName && (
-                  <p className="text-[14px] text-red-300 italic lowercase">
-                    {errors.firstName}
-                  </p>
+                {errors.first_name && touched.first_name && (
+                  <p className={classNames(errorStle)}>{errors.first_name}</p>
                 )}
               </div>
 
               <div className="w-full pt-4 flex flex-col text-left">
-                <label
-                  htmlFor="First Name"
-                  className="px-2  relative top-5 left-2 text-xs text-gray-300 capitalize"
-                >
+                <label htmlFor="lastName" className={classNames(labelStyle)}>
                   Last Name
                 </label>
                 <input
-                  id="lastName"
+                  id="last_name"
                   type="text"
                   placeholder="A1"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.lastName}
-                  className="h-16 px-5 rounded-lg"
+                  value={values.last_name}
+                  className={classNames(inputStyle)}
                 />
-                {errors.lastName && touched.lastName && (
-                  <p className="text-[14px] text-red-300 italic lowercase">
-                    {errors.lastName}
-                  </p>
+                {errors.last_name && touched.last_name && (
+                  <p className={classNames(errorStle)}>{errors.last_name}</p>
                 )}
               </div>
             </div>
             <div className="w-full py-4 text-left">
-              <label
-                htmlFor="First Name"
-                className="px-2 relative top-5 left-2 text-xs text-gray-300 capitalize"
-              >
+              <label htmlFor="Email" className={classNames(labelStyle)}>
                 Email
               </label>
               <input
@@ -140,19 +134,14 @@ const InnerForm = (props: FormikProps<FormValues>) => {
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.email}
-                className="h-16 px-5 rounded-lg w-full"
+                className={classNames(inputStyle)}
               />
               {errors.email && touched.email && (
-                <p className="text-[14px] text-red-300 italic lowercase">
-                  {errors.email}
-                </p>
+                <p className={classNames(errorStle)}>{errors.email}</p>
               )}
             </div>
             <div className="w-full py-4 text-left">
-              <label
-                htmlFor="First Name"
-                className="px-2 relative top-5 left-2 text-xs text-gray-300 capitalize"
-              >
+              <label htmlFor="Password" className={classNames(labelStyle)}>
                 Password
               </label>
               <input
@@ -162,12 +151,10 @@ const InnerForm = (props: FormikProps<FormValues>) => {
                 onChange={handleChange}
                 value={values.password}
                 placeholder="***********"
-                className="h-16 px-5 rounded-lg w-full"
+                className={classNames(inputStyle)}
               />
               {errors.password && touched.password && (
-                <p className="text-[14px] text-red-300 italic lowercase">
-                  {errors.password}
-                </p>
+                <p className={classNames(errorStle)}>{errors.password}</p>
               )}
             </div>
             <span className="flex gap-4 my-6">
@@ -193,17 +180,28 @@ const InnerForm = (props: FormikProps<FormValues>) => {
   );
 };
 
-const SignUp = withFormik<FormProps, FormValues>({
-  mapPropsToValues: (props) => ({
-    firstName: props.firstName || "",
-    lastName: props.lastName || "",
-    email: props.email || "",
-    password: props.password || "",
-  }),
+const mapState = (state: RootState) => ({});
+
+const mapDispatch = {
+  registerUser: endpoints.registerUser.initiate,
+};
+
+const connector = connect(mapState, mapDispatch);
+type MyUpgradedFormProps = ConnectedProps<typeof connector>;
+
+const SignUp = withFormik<MyUpgradedFormProps, FormValues>({
+  mapPropsToValues: () => {
+    return {
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+    };
+  },
 
   validationSchema: Yup.object().shape({
-    firstName: Yup.string().required("first name is required"),
-    lastName: Yup.string().required("last name is requireed"),
+    first_name: Yup.string().required("first name is required"),
+    last_name: Yup.string().required("last name is requireed"),
     email: Yup.string().email().required("email is required"),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
@@ -211,12 +209,16 @@ const SignUp = withFormik<FormProps, FormValues>({
       .required("Password is required"),
   }),
 
-  handleSubmit(
-    { firstName, lastName, email, password }: FormValues,
-    { props, setSubmitting, setErrors }
-  ) {
-    console.log(firstName, lastName, email, password);
+  handleSubmit: (
+    values: FormValues,
+    { props, setSubmitting, resetForm, setValues }
+  ) => {
+    props.registerUser(values);
+    setSubmitting(false);
+    resetForm();
+    toast.success("done");
+    toast.error("error");
   },
 })(InnerForm);
 
-export default SignUp;
+export default connector(SignUp);
