@@ -1,33 +1,34 @@
+import { FormProps, FormValues } from "./../auth/signup";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { IGenericResponse } from "./types";
-import { userApi } from "./userApi";
-
-const BASE_URL = "";
+import { IGenericResponse, IUser, IUserValues } from "./types";
+import { BASE_URL, userApi } from "./userApi";
 
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/...`,
+    baseUrl: `${BASE_URL}user/`,
   }),
+  // entityTypes: ["IUserValues"],
   endpoints: (builder) => ({
-    registerUser: builder.mutation<IGenericResponse, "RegisterInput">({
-      query(data) {
+    registerUser: builder.mutation<FormValues, Partial<FormValues>>({
+      query(body) {
         return {
-          url: "",
+          url: "signup",
           method: "POST",
-          body: data,
+          body,
         };
       },
     }),
+
     loginUser: builder.mutation<
       { access_token: string; status: string },
-      "LoginInput"
+      FormProps
     >({
-      query(data) {
+      query(body) {
         return {
-          url: "",
+          url: "login",
           method: "POST",
-          body: data,
+          body,
           credentials: "include",
         };
       },
@@ -38,6 +39,7 @@ export const authApi = createApi({
         } catch (error) {}
       },
     }),
+
     verifyEmail: builder.mutation<
       IGenericResponse,
       { verificationCode: string }
@@ -49,6 +51,7 @@ export const authApi = createApi({
         };
       },
     }),
+
     logoutUser: builder.mutation<void, void>({
       query() {
         return {
@@ -61,6 +64,7 @@ export const authApi = createApi({
 });
 
 export const {
+  endpoints,
   useLoginUserMutation,
   useRegisterUserMutation,
   useLogoutUserMutation,

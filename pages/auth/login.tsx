@@ -1,22 +1,35 @@
 import React from "react";
 import * as Yup from "yup";
 import { withFormik, FormikProps } from "formik";
+import { connect, ConnectedProps } from "react-redux";
 import CcInput from "../../components/UI/inputs";
 import Link from "next/link";
 import { CcButton } from "../../components/UI/button";
+import classNames from "classnames";
+import { endpoints } from "../api/authApi";
+import { RootState } from "../../context/store";
 
 interface FormValues {
-  email: string;
+  username: string;
   password: string;
 }
 interface FormProps {
-  email: string;
+  username: string;
   password: string;
+  FormData: React.ReactNode;
 }
+
+//repeated styles simplified
+export const inputStyle =
+  "h-16 px-5 rounded-lg w-full focus:outline-none focus:ring focus:ring-blue-500";
+export const labelStyle =
+  "px-2 relative top-6 left-2 text-xs text-gray-400 capitalize";
+export const errorStle = "text-[14px] text-red-300 italic lowercase";
 
 const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
   const { values, handleSubmit, handleBlur, handleChange, touched, errors } =
     props;
+
   return (
     <div className="bg-login-hero bg-cover">
       <div className="bg-gradient-to-r from-black via-gray-800/95">
@@ -33,32 +46,24 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
           </span>
           <form onSubmit={handleSubmit}>
             <div className="w-full py-4 text-left">
-              <label
-                htmlFor="email"
-                className="px-2 relative top-5 left-2 text-xs text-gray-300 capitalize"
-              >
+              <label htmlFor="email" className={classNames(labelStyle)}>
                 Email
               </label>
               <input
-                id="email"
-                type="email"
+                id="username"
+                type="username"
                 placeholder="inputyouremail@send.com"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.email}
-                className="h-16 px-5 rounded-lg w-full"
+                value={values.username}
+                className={classNames(inputStyle)}
               />
-              {errors.email && touched.email && (
-                <p className="text-[14px] text-red-300 italic lowercase">
-                  {errors.email}
-                </p>
+              {errors.username && touched.username && (
+                <p className={classNames(errorStle)}>{errors.username}</p>
               )}
             </div>
             <div className="w-full py-4 text-left">
-              <label
-                htmlFor="password"
-                className="px-2 relative top-5 left-2 text-xs text-gray-300 capitalize"
-              >
+              <label htmlFor="Password" className={classNames(labelStyle)}>
                 Password
               </label>
               <input
@@ -68,12 +73,10 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
                 onChange={handleChange}
                 value={values.password}
                 placeholder="***********"
-                className="h-16 px-5 rounded-lg w-full"
+                className={classNames(inputStyle)}
               />
               {errors.password && touched.password && (
-                <p className="text-[14px] text-red-300 italic lowercase">
-                  {errors.password}
-                </p>
+                <p className={classNames(errorStle)}>{errors.password}</p>
               )}
             </div>
             <span className="flex gap-7">
@@ -89,26 +92,38 @@ const InnerForm = (props: FormProps & FormikProps<FormValues>) => {
   );
 };
 
-const Login = withFormik<FormProps, FormValues>({
+const mapState = (state: RootState) => ({});
+
+const mapDispatch = {
+  loginUser: endpoints.loginUser.initiate,
+};
+
+const connector = connect(mapState, mapDispatch);
+type MyUpgradedFormProps = ConnectedProps<typeof connector>;
+
+const Login = withFormik<MyUpgradedFormProps, FormValues>({
   mapPropsToValues: (props) => ({
-    email: props.email || "",
-    password: props.password || "",
+    username: "",
+    password: "",
   }),
 
   validationSchema: Yup.object().shape({
-    email: Yup.string().required("neccesary").email(),
+    username: Yup.string().required("neccesary").email(),
     password: Yup.string()
       .min(8, "Password must be at least 8 characters")
       .required("Password is required")
       .required("Password is required"),
   }),
+  
+  handleSubmit: (values: FormValues, { props, setSubmitting }) => {
+    const formValue = new FormData();
+    formValue.append("username", values.username);
+    formValue.append("password", values.password);
 
-  handleSubmit(
-    { email, password }: FormValues,
-    { props, setErrors, setSubmitting }
-  ) {
-    console.log(email, password);
+    props.loginUser(formValue);
+    setSubmitting(true);
+    console.log(formValue);
   },
 })(InnerForm);
 
-export default Login;
+export default connector(Login);

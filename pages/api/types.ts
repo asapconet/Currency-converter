@@ -1,14 +1,21 @@
 export interface IUser {
-  name: string;
   email: string;
-  role: string;
-  _id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  __v: number;
+  first_name: string;
+  last_name: string;
+  password: string;
+  // created_at: Date;
+  // updatedAt: Date;
+  // __v: number;
+}
+
+export interface IUserValues {
+  email: string;
+  first_name: string;
+  last_name: string;
+  created_at: Date;
 }
 
 export interface IGenericResponse {
   status: string;
-  message: string; 
+  message: string;
 }

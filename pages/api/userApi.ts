@@ -1,24 +1,24 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setUser } from "../../services/userSlice";
-import { IUser } from "./types";
+import { IUser, IUserValues } from "./types";
 
-const BASE_URL = "" as string;
+export const BASE_URL = "https://korensee.herokuapp.com/api/v1/" as string;
 
 export const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${BASE_URL}/...`,
+    baseUrl: `${BASE_URL}user`,
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getMe: builder.query<IUser, null>({
+    getMe: builder.query<IUserValues, null>({
       query() {
         return {
-          url: "",
+          url: "me",
           credentials: "include",
         };
       },
-      transformResponse: (result: { data: { user: IUser } }) =>
+      transformResponse: (result: { data: { user: IUserValues } }) =>
         result.data.user,
       async onQueryStarted(args, { dispatch, queryFulfilled }): Promise<void> {
         try {

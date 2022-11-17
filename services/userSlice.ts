@@ -1,8 +1,8 @@
-import { IUser } from "./../pages/api/types";
+import { IUser, IUserValues } from "./../pages/api/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IUserState {
-  user: IUser | null;
+  user: IUserValues | null;
 }
 
 const initialState: IUserState = {
@@ -14,7 +14,7 @@ export const userSlice = createSlice({
   name: "userSlice",
   reducers: {
     logout: () => initialState,
-    setUser: (state, action: PayloadAction<IUser>) => {
+    setUser: (state, action: PayloadAction<IUserValues>) => {
       state.user = action.payload;
     },
   },

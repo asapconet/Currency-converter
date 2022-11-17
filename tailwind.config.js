@@ -9,6 +9,7 @@ module.exports = {
       backgroundImage: {
         "login-hero": "url('../public/sean1.jpg')",
       },
+      
     },
   },
   plugins: [],

@@ -19,9 +19,7 @@ export interface FormValues {
 }
 
 export interface FormProps {
-  // first_name: string;
-  // last_name: string;
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -184,6 +182,7 @@ const mapState = (state: RootState) => ({});
 
 const mapDispatch = {
   registerUser: endpoints.registerUser.initiate,
+  toast,
 };
 
 const connector = connect(mapState, mapDispatch);
@@ -217,7 +216,6 @@ const SignUp = withFormik<MyUpgradedFormProps, FormValues>({
     setSubmitting(false);
     resetForm();
     toast.success("done");
-    toast.error("error");
   },
 })(InnerForm);
 
