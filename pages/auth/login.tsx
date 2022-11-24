@@ -121,7 +121,7 @@ const Login = withFormik<MyUpgradedFormProps, FormValues>({
     formValue.append("password", values.password);
 
     // formik does not allow 'formValue' on production
-    props.loginUser(values, formValue);
+    props.loginUser(values);
     setSubmitting(true);
     console.log(formValue);
   },
