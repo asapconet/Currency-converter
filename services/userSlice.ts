@@ -1,12 +1,15 @@
+import { string } from "./../node_modules/@redux-saga/is/index.d";
 import { IUser, IUserValues } from "./../pages/api/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface IUserState {
-  user: IUserValues | null;
+  user?: IUserValues | null;
+  access_token?: any;
 }
 
 const initialState: IUserState = {
   user: null,
+  access_token: "",
 };
 
 export const userSlice = createSlice({
@@ -14,11 +17,14 @@ export const userSlice = createSlice({
   name: "userSlice",
   reducers: {
     logout: () => initialState,
-    setUser: (state, action: PayloadAction<IUserValues>) => {
+    setCredential: (state, action: PayloadAction<IUserValues>) => {
       state.user = action.payload;
+      state.access_token = action.payload;
     },
+
+    // state.access_token = action.payload;
   },
 });
 
 export default userSlice.reducer;
-export const { logout, setUser } = userSlice.actions;
+export const { logout, setCredential } = userSlice.actions;

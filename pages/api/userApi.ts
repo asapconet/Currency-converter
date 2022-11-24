@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser } from "../../services/userSlice";
+import { setCredential } from "../../services/userSlice";
 import { IUser, IUserValues } from "./types";
 
 export const BASE_URL = "https://korensee.herokuapp.com/api/v1/" as string;
@@ -23,7 +23,7 @@ export const userApi = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }): Promise<void> {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setUser(data));
+          dispatch(setCredential(data));
         } catch (error) {}
       },
     }),
