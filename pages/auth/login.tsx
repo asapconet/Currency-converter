@@ -16,7 +16,7 @@ interface FormValues {
 interface FormProps {
   username: string;
   password: string;
-  FormData: React.ReactNode;
+  FormData?: React.ReactNode;
 }
 
 //repeated styles simplified
@@ -114,13 +114,14 @@ const Login = withFormik<MyUpgradedFormProps, FormValues>({
       .required("Password is required")
       .required("Password is required"),
   }),
-  
+
   handleSubmit: (values: FormValues, { props, setSubmitting }) => {
     const formValue = new FormData();
     formValue.append("username", values.username);
     formValue.append("password", values.password);
 
-    props.loginUser(formValue);
+    // formik does not allow 'formValue' on production
+    props.loginUser(values, formValue);
     setSubmitting(true);
     console.log(formValue);
   },
